@@ -1,0 +1,514 @@
+/* 基础样式 */
+:root {
+    --cell-size-desktop: 120px;
+    --cell-size-tablet: 100px;
+    --cell-size-mobile: 90px;
+    --container-padding: clamp(15px, 3vw, 30px);
+    --font-size-base: clamp(14px, 2vw, 16px);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh; /* 适配移动端 */
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: var(--font-size-base);
+}
+
+.container {
+    text-align: center;
+    width: min(95%, 600px);
+    margin: auto;
+    padding: var(--container-padding);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: clamp(20px, 4vh, 30px);
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 模式选择按钮 */
+.mode-select {
+    margin: clamp(15px, 3vh, 20px) 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.mode-btn {
+    min-width: 120px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.mode-btn.active {
+    background-color: #3498db;
+    transform: scale(1.05);
+}
+
+.mode-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 游戏棋盘 */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, var(--cell-size-desktop));
+    grid-gap: clamp(8px, 1.5vw, 12px);
+    margin: clamp(20px, 4vh, 30px) auto;
+    padding: clamp(12px, 2.5vw, 20px);
+    background: #34495e;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    width: fit-content;
+}
+
+.cell {
+    position: relative;
+    width: var(--cell-size-desktop);
+    height: var(--cell-size-desktop);
+    background: white;
+    border: none;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(var(--cell-size-desktop) * 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.cell:hover {
+    transform: scale(0.98);
+    background-color: #f8f9fa;
+}
+
+.cell.x {
+    color: #e74c3c;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cell.o {
+    color: #3498db;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cell:empty:hover::before {
+    content: '';
+    position: absolute;
+    font-size: calc(var(--cell-size-desktop) * 0.5);
+    opacity: 0.3;
+}
+
+.cell:empty:hover.x-turn::before {
+    content: 'X';
+    color: #e74c3c;
+}
+
+.cell:empty:hover.o-turn::before {
+    content: 'O';
+    color: #3498db;
+}
+
+.cell.win {
+    animation: winPulse 1.5s infinite;
+    background-color: #2ecc71;
+    color: white !important;
+    text-shadow: none;
+}
+
+/* 规则说明 */
+.rules {
+    background-color: rgba(248, 249, 250, 0.9);
+    padding: clamp(15px, 3vw, 20px);
+    border-radius: 15px;
+    margin: clamp(15px, 3vh, 20px) auto;
+    width: min(90%, 400px);
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.rules h3 {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.rules ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    line-height: 1.4;
+    color: #34495e;
+}
+
+.rules li {
+    margin-bottom: 8px;
+}
+
+/* 状态显示 */
+#status {
+    background-color: rgba(248, 249, 250, 0.9);
+    padding: clamp(10px, 2vw, 15px) clamp(20px, 3vw, 25px);
+    border-radius: 50px;
+    margin: clamp(15px, 3vh, 20px) auto;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    display: inline-block;
+    max-width: 90%;
+    word-break: break-word;
+    transition: all 0.3s ease;
+}
+
+/* 添加当前玩家的样式 */
+#status .current-player {
+    display: inline-block;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 5px;
+    margin: 0 3px;
+    border-radius: 5px;
+    min-width: 1.5em;
+    text-align: center;
+}
+
+#status .current-player.x {
+    color: #e74c3c;
+    text-shadow: 1px 1px 2px rgba(231, 76, 60, 0.2);
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+#status .current-player.o {
+    color: #3498db;
+    text-shadow: 1px 1px 2px rgba(52, 152, 219, 0.2);
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+#status.winner {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    font-weight: bold;
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+}
+
+#status.winner .current-player {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+button#restart {
+    /* padding: 12px 30px; */
+    font-size: 18px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button#restart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes winPulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .board {
+        grid-template-columns: repeat(3, var(--cell-size-tablet));
+        grid-gap: 8px;
+    }
+
+    .cell {
+        width: var(--cell-size-tablet);
+        height: var(--cell-size-tablet);
+        font-size: calc(var(--cell-size-tablet) * 0.5);
+        border-radius: 12px;
+    }
+
+    .cell:empty:hover::before {
+        font-size: calc(var(--cell-size-tablet) * 0.5);
+    }
+}
+
+@media (max-width: 480px) {
+    .board {
+        grid-template-columns: repeat(3, var(--cell-size-mobile));
+        grid-gap: 6px;
+        padding: 10px;
+    }
+
+    .cell {
+        width: var(--cell-size-mobile);
+        height: var(--cell-size-mobile);
+        font-size: calc(var(--cell-size-mobile) * 0.5);
+        border-radius: 10px;
+    }
+
+    .mode-select {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .mode-btn {
+        width: 100%;
+        max-width: 200px;
+        min-width: unset;
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+
+    #status {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+
+    .rules {
+        padding: 12px 15px;
+        margin: 10px auto;
+        width: 90%;
+    }
+
+    .rules ul {
+        padding-left: 15px;
+    }
+
+    .rules li {
+        margin-bottom: 5px;
+    }
+
+    .cell:empty:hover::before {
+        font-size: calc(var(--cell-size-mobile) * 0.5);
+    }
+}
+
+/* 横屏模式适配 */
+@media (max-height: 600px) and (orientation: landscape) {
+    body {
+        align-items: flex-start;
+    }
+
+    .container {
+        margin: 10px auto;
+        padding: 15px;
+    }
+
+    .board {
+        margin: 15px auto;
+    }
+
+    .rules {
+        margin: 8px auto;
+        padding: 10px;
+    }
+
+    .rules h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .rules ul {
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+
+    .rules li {
+        margin-bottom: 3px;
+    }
+
+    h1 {
+        margin: 10px 0;
+        font-size: 1.8rem;
+    }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: rgba(255, 255, 255, 0.98);
+    }
+}
+
+/* 减少动画（用户偏好） */
+@media (prefers-reduced-motion: reduce) {
+    .cell, .mode-btn, button#restart {
+        transition: none;
+    }
+
+    .cell.win, #status.winner {
+        animation: none;
+    }
+}
+
+/* 添加新的样式，保留之前的基础样式 */
+.game-container {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+}
+
+.select-view, .game-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* 游戏视图样式 */
+.game-view {
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* 为返回按钮的绝对定位做准备 */
+}
+
+/* 游戏主体区域 */
+.game-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding-top: 40px; /* 为返回按钮留出空间 */
+}
+
+/* 状态显示 */
+#status {
+    margin-bottom: 20px;
+    background-color: rgba(248, 249, 250, 0.9);
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    display: inline-block;
+    max-width: 90%;
+    word-break: break-word;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 控制按钮区域 */
+.game-controls {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 10;
+}
+
+/* 图标按钮样式 */
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.icon-btn i {
+    font-size: 18px;
+}
+
+.icon-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.icon-btn.back-btn {
+    background-color: #95a5a6;
+}
+
+.icon-btn.restart-btn {
+    background-color: #3498db;
+}
+
+.icon-btn.back-btn:hover {
+    background-color: #7f8c8d;
+}
+
+.icon-btn.restart-btn:hover {
+    background-color: #2980b9;
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+    .game-controls {
+        top: 15px;
+        padding: 0 15px;
+    }
+
+    .icon-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .icon-btn i {
+        font-size: 16px;
+    }
+}
+
+/* 横屏模式特殊处理 */
+@media (max-height: 600px) and (orientation: landscape) {
+    .game-controls {
+        top: 10px;
+        padding: 0 10px;
+    }
+} 
