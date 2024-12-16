@@ -1,0 +1,17 @@
+{
+  "name": "tic-tac-toe-server",
+  "version": "1.0.0",
+  "description": "WebSocket server for Tic Tac Toe game",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

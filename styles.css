@@ -511,4 +511,147 @@ button#restart:hover {
         top: 10px;
         padding: 0 10px;
     }
+}
+
+/* 网络对战相关样式优化 */
+.network-controls {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: min(90%, 400px);
+}
+
+.network-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.network-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #95a5a6;
+    transition: all 0.3s ease;
+}
+
+.status-dot.connected {
+    background-color: #2ecc71;
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+}
+
+.status-dot.disconnected {
+    background-color: #e74c3c;
+    box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+}
+
+.status-dot.waiting {
+    background-color: #f1c40f;
+    box-shadow: 0 0 8px rgba(241, 196, 15, 0.5);
+    animation: pulse 1s infinite;
+}
+
+.status-dot.error {
+    background-color: #e74c3c;
+    animation: shake 0.5s ease-in-out;
+}
+
+.network-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.network-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.network-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.join-room {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+}
+
+.input-group:focus-within {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.input-group i {
+    color: #95a5a6;
+    margin-right: 8px;
+}
+
+.input-group input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    background: transparent;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+@media (max-width: 480px) {
+    .network-controls {
+        padding: 15px;
+    }
+    
+    .network-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
 } 
